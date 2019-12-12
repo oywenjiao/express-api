@@ -38,7 +38,7 @@ router.post('/user/info', function (req, res) {
         return res.json({
             code: 401,
             msg: '缺失token',
-            sub_code: 'token params lack'
+            sub_code: 'lack of token params!'
         });
     }
     return res.json(controllerFun(req.body));

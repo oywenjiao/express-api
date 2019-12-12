@@ -13,6 +13,12 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
     }
 });
 
+// 测试数据库连接
+/*sequelize.authenticate().then(() => {
+    console.log('success connect to the database');
+}).catch(err => {
+    console.log('Unable to connect to the database:', err);
+});*/
 
 module.exports = {
     Sequelize,
