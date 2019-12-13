@@ -39,9 +39,9 @@ app.post('/gate', function (req, res) {
 });
 
 app.get('/token', function (req, res) {
-    const {createToken} = require(process.cwd() + '/app/tool/JwtService');
+    const jwt = require(process.cwd() + '/app/tool/JwtService');
     let uid = req.body.uid;
-    let token = createToken({uid: uid}, '1 days');
+    let token = jwt.createToken({uid: uid}, '10000');
     res.send(token);
 });
 

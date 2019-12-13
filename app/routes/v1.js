@@ -1,12 +1,20 @@
+'use strict';
+
 const express = require('express');
 var router = express.Router();
 let controllerFile = '';
 let controllerFun = '';
 
+router.post('/', function (req, res) {
+    return res.send('this response with v1 version');
+});
+
+// 路由中间件，验证公共参数
 router.use(function (req, res, next) {
     let timestamp = req.headers.timestamp;
-    let current = Date.parse(new Date()) / 1000;
-    if (!timestamp || timestamp > current || timestamp < current - 300) {
+    let current = Date.parse(new Date()) / 1000;    // 当前时间戳
+    let validTime = 300;    // 时间戳有效期5分钟
+    if (!timestamp || timestamp > current || timestamp < current - validTime) {
         /*return res.json({
             code: 401,
             msg: 'timestamp 参数无效',
@@ -27,25 +35,15 @@ router.use(function (req, res, next) {
     }
 });
 
-router.post('/', function (req, res) {
-    return res.send('this response with v1 version');
-});
+// token验证中间件，需要登录的接口直接调用即可
+const authToken = require(process.cwd() + '/app/middleware/authToken');
 
 // 获取用户信息
-router.post('/user/info', function (req, res) {
-    let token = req.headers.token;
-    if (!token) {
-        return res.json({
-            code: 401,
-            msg: '缺失token',
-            sub_code: 'lack of token params!'
-        });
-    }
+router.post('/user/info', authToken, function (req, res) {
     return res.json(controllerFun(req.body));
 });
-
 // 获取订单列表
-router.post('/order/list', function (req, res) {
+router.post('/order/list', authToken, function (req, res) {
     return res.json(controllerFun(req.body));
 });
 
