@@ -37,16 +37,28 @@ router.use(function (req, res, next) {
 
 // token验证中间件，需要登录的接口直接调用即可
 const authToken = require(process.cwd() + '/app/middleware/authToken');
+// 公共方法
+const helper = require(process.cwd() + '/app/tool/Helper');
 
+/** =============================== 产品相关的接口路由 =============================== **/
+// 获取产品列表
+router.post('/product/search', function (req, res) {
+    controllerFun(req, res, helper);
+});
+
+/** =============================== 用户相关的接口路由 =============================== **/
 // 获取用户信息
 router.post('/user/info', authToken, function (req, res) {
-    return res.json(controllerFun(req.body));
-});
-// 获取订单列表
-router.post('/order/list', authToken, function (req, res) {
-    return res.json(controllerFun(req.body));
+    controllerFun(req, res, helper);
 });
 
+/** =============================== 订单相关的接口路由 =============================== **/
+// 获取订单列表
+router.post('/order/list', authToken, function (req, res) {
+    controllerFun(req, res, helper);
+});
+
+/** =============================== 匹配不到路由时的处理 =============================== **/
 
 // 错误路由捕获
 router.get('*', function (req, res) {

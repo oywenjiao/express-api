@@ -3,12 +3,23 @@ const {Sequelize, sequelize} = require(process.cwd() + '/app/config/database');
 /**
  * 非数据表映射的方式定义model
  */
+/*const Model = Sequelize.Model;
+class Order extends Model {}
+Order.init({
+    status: {
+        type: Sequelize.BOOLEAN
+    },
+    trade_sn: {
+        type: Sequelize.STRING(32)
+    }
+}, {
+    sequelize,
+    timestamps: false
+});*/
 
 const { User } = require('./user');
-const Model = Sequelize.Model;
-class Order extends Model {}
 
-Order.init({
+const Order = sequelize.define('order', {
     status: {
         type: Sequelize.BOOLEAN,
         defaultValue: 1,
@@ -50,7 +61,6 @@ Order.init({
         field: 'update_time'
     }
 }, {
-    sequelize,
     timestamps: false,
     underscored: true,  // 设置关联外键的字段名称为表名+下划线的方式
     freezeTableName: true,
