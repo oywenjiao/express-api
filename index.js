@@ -11,8 +11,10 @@ app.use(bodyParser.json());
 
 // 加载路由
 const V1Router = require('./app/routes/v1');
+const V2Router = require('./app/routes/v2');
 // 路由匹配模式
 app.use('/v1', V1Router);
+app.use('/v2', V2Router);
 
 // 单一入口
 app.post('/gate', function (req, res) {
